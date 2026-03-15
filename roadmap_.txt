@@ -1,0 +1,21 @@
+03.01.2026:
+added: 
+
+
+notes:
+Now it is possible to create a console application with support for x64/x86 Debug/Release.
+It is required to add:
+The status bar that allows you to Create a project, open a project, Build Bridge settings, and view information about the extension
+
+* When a project is created, a folder is created next to it.BuildBridge, which stores all the metadata of the project, which allows it to be reopened later, if
+such a folder is missing, the project cannot be opened (do I need to fix this? ).
+
+--------------------
+as of 03/05/2026
+Add the html page that will be displayed for the Visual studio project properties.vcxproj.
+-> Full display of all properties, editing them, and reverse parsing to replace strings in the original.vcxproj
+-> For the future: Add the ability to edit .slnx
+
+Now the generator.vcxproj uses a template from the media folder, generates the necessary sections and simply changes macros to these sections
+. This approach will allow users to create their own templates, which can then be applied when creating a project. I'm thinking of doing this feature after
+the release of the extension, so let's skip it for now.

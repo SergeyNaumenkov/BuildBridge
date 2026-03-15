@@ -1,0 +1,423 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* global */
+input {
+    color: white;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container {
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+}
+
+/* MAIN CONTENT */
+
+.main-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    padding-bottom: 15px;
+    background-color: #1E1E1E;
+}
+
+.header-content-title {
+    font-size: 32px;
+    color: white;
+    font-weight: bold;
+}
+
+.header-content-description {
+    font-size: 16px;
+    color: #888888;
+    margin-top: 4px;
+}
+
+.header-content-search-templates {
+    width: 100%;
+    padding: 13px;
+    background-color: #2D2D2D;
+    border: 1px #3C3C3C solid;
+    border-radius: 5px;
+
+    margin-top: 12px;
+}
+
+.section-active {
+    background-color: #252526;
+}
+
+.template-section-container>*+* {
+    margin-top: 15px;
+}
+
+.template-section {
+    display: flex;
+}
+
+.template-icon-manual {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 80px;
+    min-width: 80px;
+    background-color: #3D2070;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    border-radius: 15px;
+}
+
+.template-section {
+    padding: 20px;
+    border: 1px #333333 solid;
+    border-radius: 20px;
+
+    width: 100%;
+
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.template-section:hover {
+    background-color: #252526;
+}
+
+.template-section.active {
+    background: #252526;
+}
+
+.template-text-section {
+    margin-left: 20px;
+}
+
+.template-title {
+    font-size: 25px;
+    color: white;
+    font-weight: bold;
+}
+
+.template-description-text {
+    color: #AAAAAA;
+    font-size: 15px;
+}
+
+.templat-tags-group {
+    display: flex;
+    margin-top: 5px;
+}
+
+.template-tag {
+    background-color: #2d2d2d87;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.512);
+}
+
+/* Apply ml for tags first tag is skipped */
+.templat-tags-group>*+* {
+    margin-left: 10px;
+}
+
+.page-hidden {
+    display: none;
+}
+
+/* MAIN CONTENT FOOTER */
+.content-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: auto;
+
+    border-top: 0.5px solid #333;
+    padding-top: 20px;
+}
+
+.footer-button-next-step {
+    padding: 10px;
+    width: 150px;
+    background-color: #7C3AED;
+
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.footer-button-next-step:hover {
+    background-color: #5d26bd;
+}
+
+.button-next-disabled
+{
+    background-color: #2d0f62;
+    cursor: default;
+    pointer-events: none;
+}
+
+.footer-button-cancel {
+    padding: 10px;
+    width: 150px;
+    background-color: #252526;
+
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    font-size: 14px;
+    margin-left: 10px;
+
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.footer-button-cancel:hover {
+    background-color: #1a1a1c;
+}
+
+.footer-step-informer {
+    color: #AAAAAA;
+}
+
+/* MAIN CONTENT CONFIGURATE PROJECT PAGE */
+.content-selector-container {
+    width: 50%;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.text-orange {
+    color: orange !important;
+}
+
+.text-green {
+    color: green !important;
+}
+
+.text-purple {
+    color: purple !important;
+}
+
+.text-yellow {
+    color: yellow !important;
+}
+
+.content-selector {
+    width: 100%;
+    padding: 10px;
+    background-color: #2D2D2D;
+    margin-top: 10px;
+    color: white;
+    border: 1px #3C3C3C solid;
+}
+
+.content-selector-container-full {
+    width: 100%;
+}
+
+/* MAIN CONTENT REVIEW AND CREATE PAGE */
+.review-page-container {
+    display: flex;
+}
+
+.review-page-template {
+    padding: 15px;
+    width: 150px;
+    background-color: #252526;
+    border: 1px #333333 solid;
+}
+
+/* REVIEW CARD */
+.review-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.review-card {
+    background: #252526;
+    border: 0.5px solid #333;
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+.review-card-label {
+    font-size: 15px;
+    color: #888;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+}
+
+.review-card-value {
+    font-size: 14px;
+    color: #9CDCFE;
+    font-family: monospace;
+    word-break: break-all;
+}
+
+.review-to-be-generated-container {
+    background-color: #0D0D0D;
+    border: 1px #333333 solid;
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.review-checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.review-checkbox {
+    width: 18px;
+    height: 18px;
+}
+
+.checbox-label {
+    color: white;
+    margin-bottom: 2px;
+    margin-left: 10px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 350px;
+    background: #252526;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex-shrink: 0;
+
+    height: 100%;
+}
+
+.sidebar-section-title {
+    font-size: 23px;
+    font-weight: 600;
+    color: #888;
+    padding: 0 20px 10px;
+    letter-spacing: 0.08em;
+}
+
+.step {
+    padding: 8px 20px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+}
+
+.step.active {
+    background: #37373D;
+    border-left: 3px solid #C084FC;
+}
+
+.step.done {
+    border-left: 3px solid #4EC9B0;
+}
+
+.step-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+.step.done .step-title {
+    color: #4EC9B0;
+}
+
+.step:not(.active):not(.done) .step-title {
+    color: #555;
+}
+
+.step-subtitle {
+    font-size: 15px;
+    color: #888;
+    margin-top: 4px;
+}
+
+.step.done .step-subtitle {
+    color: #4EC9B0;
+}
+
+.step:not(.active):not(.done) .step-subtitle {
+    color: #444;
+}
+
+.sidebar-divider {
+    height: 0.5px;
+    background: #333;
+    margin: 14px 16px;
+}
+
+.recent-item {
+    padding: 6px 20px;
+    cursor: pointer;
+}
+
+.recent-item:hover .recent-name {
+    color: #CCC;
+}
+
+.recent-name {
+    font-size: 18px;
+    color: #666;
+}
+
+.recent-meta {
+    font-size: 15px;
+    color: #444;
+    font-family: monospace;
+    margin-top: 1px;
+}
+
+.recent-projects-list {
+    overflow-y: auto;
+}

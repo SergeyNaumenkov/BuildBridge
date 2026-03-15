@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildBridge: Create a new project</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vscode/codicons@0.0.36/dist/codicon.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <div class="sidebar">
+
+            <div class="sidebar-section-title">Steps</div>
+
+            <div class="step active" id="step-select-template-id">
+                <div class="step-title">1. Select template</div>
+                <div class="step-subtitle">Choose project type</div>
+            </div>
+
+            <div class="step" id="step-configure-template-id">
+                <div class="step-title">2. Configure</div>
+                <div class="step-subtitle">Name, platform, config</div>
+            </div>
+
+            <div class="step" id="step-create-template-id">
+                <div class="step-title">3. Create</div>
+                <div class="step-subtitle">Generate project files</div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+            <div class="sidebar-section-title">Recent</div>
+
+            <div class="recent-projects-list">
+                <div class="recent-item">
+                    <div class="recent-name">ConsoleApp1</div>
+                    <div class="recent-meta">Console • x64</div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- MAIN CONTENT SECTION -->
+        <div class="main-content">
+            <div class="page" id="main-content-select-template-id">
+                <div class="header-content">
+                    <p class="header-content-title">Select a template</p>
+                    <p class="header-content-description">Choose the type of c++ project you want to create</p>
+
+                    <input class="header-content-search-templates" placeholder="Search templates" />
+                </div>
+                <div class="sidebar-divider"></div>
+
+                <!-- Dynamic generated section -->
+                <div class="template-section-container" id="template-section-container-id"></div>
+            </div>
+
+            <!-- Configurate project template  -->
+            <div class="page page-hidden" id="main-content-configurate-template-id">
+                <div class="header-content">
+                    <p class="header-content-title">Configure your project</p>
+                    <p class="header-content-description">Set the project name, location and build settings</p>
+                </div>
+                <div class="sidebar-divider"></div>
+
+                <p class="header-content-description">Project Name</p>
+                <input class="header-content-search-templates" id="configurate-project-name-id"
+                    placeholder="Project Name" required />
+
+                <p class="header-content-description">Location</p>
+                <input class="header-content-search-templates" id="configurate-project-workspace-folder-for-project-id" placeholder="location..." required disabled />
+
+                <div class="sidebar-divider"></div>
+
+                <div style="display: flex;">
+                    <div class="content-selector-container">
+                        <p class="header-content-description">Configuration</p>
+                        <select class="content-selector" id="configurate-project-configure-id">
+                            <option>Debug</option>
+                            <option>Release</option>
+                            <option>Both</option>
+                        </select>
+                    </div>
+
+                    <div class="content-selector-container ml-10">
+                        <p class="header-content-description">Platform</p>
+                        <select class="content-selector" id="configurate-project-platform-id">
+                            <option>x64</option>
+                            <option>x86</option>
+                            <option>Both</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="content-selector-container-full mt-20">
+                    <p class="header-content-description">Language Standard</p>
+                    <select class="content-selector" id="configurate-project-language-standard-id">
+                        <option>stdcpp14</option>
+                        <option>stdcpp17</option>
+                        <option>stdcpp20</option>
+                        <option>stdcpp23</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Configurate project template  -->
+            <div class="page page-hidden" id="main-content-configurate-template-id">
+                <div class="header-content">
+                    <p class="header-content-title">Review and create</p>
+                    <p class="header-content-description">Confirm your project settings before generating file</p>
+                </div>
+                <div class="sidebar-divider"></div>
+
+                <div class="review-cards">
+                    <div class="review-card">
+                        <div class="review-card-label">Template</div>
+                        <p class="review-card-value">Console Application</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-card-label">Project Name</div>
+                        <p class="review-card-value" id="review-project-name-id">MyProject</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-card-label">Location</div>
+                        <p class="review-card-value" id="review-project-path-id">_location_</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-card-label">Configuration</div>
+                        <p class="review-card-value" id="review-project-configurate-id">Debug</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-card-label">Platform</div>
+                        <p class="review-card-value" id="review-project-platform-id">x64</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-card-label">Language Standard</div>
+                        <p class="review-card-value" id="review-project-cpp-standard-id">ISO C++20</p>
+                    </div>
+                </div>
+                <div class="sidebar-divider"></div>
+                <div>
+                    <div class="review-card-label">Files to be generated</div>
+                    <div class="review-to-be-generated-container">
+                        <div class="review-card-label text-yellow" id="review-to-be-generate-folder-name-id">{$Name$}\</div>
+                        <div class="review-card-label ml-10 text-purple" id="review-to-be-generate-solution-name-id">{$Name$}.slnx</div>
+                        <div class="review-card-label ml-10 text-green" id="review-to-be-generate-project-name-id">{$Name$}.vcxproj</div>
+                        <div class="review-card-label ml-10 text-orange" id="review-to-be-generate-cpp-name-id">{$Name$}.cpp</div>
+                    </div>
+                </div>
+                <div class="sidebar-divider"></div>
+                <div class="review-checkbox-container">
+                    <input class="review-checkbox" type="checkbox" id="open-src-file-after-creating-check-id" checked />
+                    <label class="checbox-label" for="open-src-file-after-creating-check-id">Open Source File after
+                        creating project</label>
+                </div>
+
+            </div>
+
+            <!-- MAIN CONTENT FOOTER -->
+            <div class="content-footer">
+                <div>
+                    <button id="footer-button-next-create-id" class="footer-button-next-step"
+                        onclick="ChangeStep()">Next</button>
+                    <button class="footer-button-cancel" onclick="PrevStep()">Cancel</button>
+                </div>
+
+                <div>
+                    <p class="footer-step-informer" id="footer-step-informer-id">Steps:</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="LoadSettings.js"></script>
+<script src="TemplateSelectorUtils.js"></script>
+<script src="PrepareToCreate.js"></script>
+<script src="Stepper.js"></script>
+<script src="TemplateGeneratorDefault.js"></script>
+<script>
+
+    // Send vs code event message what webview is full loaded
+    const vscode = acquireVsCodeApi();
+    window.addEventListener('load', () => {
+        vscode.postMessage({ type: 'ready' });
+    });
+
+    /* Handle message from vs code with settings */
+    LoadDataFromVsCode();
+
+    /* Initialize */
+    ChangeStepNumber(0);
+
+    // Generate default templates 
+    GenerateTemplateFromArray();
+
+    // Set button is disabled
+    SetButtonEnableDisabled(true);
+
+</script>
+
+</html>

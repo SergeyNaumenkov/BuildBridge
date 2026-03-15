@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildBridge: Create a new project</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vscode/codicons@0.0.36/dist/codicon.css">
+</head>
+
+<body>
+
+    <div class="main-container">
+        <div class="container">
+            <div class="left">
+                <div id="project-configuration-page-left" class="hidden">
+                    <h1 class="page-title">Configurate project</h1>
+                    <h3 id="project-configuration-title">Project Name</h3>
+                    <div id="project-configuration-project-tags" class="tempalte-list-item-tags-container">
+                    </div>
+                    <p id="project-configuration-description" class="mt-20">Description</p>
+                </div>
+
+                <div id="project-create-page-left">
+                    <h1 class="page-title">Create a new project</h1>
+                    <h3>Recent project templates</h3>
+                    <p>A list of your recently accessed templates will be displayed here.</p>
+                </div>
+
+            </div>
+            <div class="right">
+                <div id="content-page-wizard-select-project">
+                    <input class="search-templates" placeholder="Search project templates" />
+                    <div class="selector-container">
+                        <select>
+                            <option>C++</option>
+                        </select>
+
+                        <select>
+                            <option>Windows</option>
+                        </select>
+
+                        <select>
+                            <option>All types</option>
+                            <option>Console</option>
+                            <option>Desktop</option>
+                            <option>Web</option>
+                        </select>
+                    </div>
+
+                    <div id="template-list-id" class="template-list">
+                    </div>
+
+                </div>
+
+                <div id="content-page-wizard-create-project" class="hidden">
+                    <p class="create-project-item-of-input">Project name:</p>
+                    <input class="search-templates" id="input-project-name" placeholder="Enter project name" />
+
+                    <p class="create-project-item-of-input">Project path:</p>
+                    <input class="search-templates" disabled
+                        placeholder="D:\IT\VS_code_exts\PowerFullExt\src\extension\buildbridge\media\WebView\CreateProject\" />
+
+                    <p class="create-project-item-of-input">Configuration:</p>
+                    <select id="dropdown-project-configuration">
+                        <option>Debug</option>
+                        <option>Release</option>
+                        <option>Both</option>
+                    </select>
+
+                    <p class="create-project-item-of-input">Platform:</p>
+                    <select id="dropdown-project-platform">
+                        <option>x64</option>
+                        <option>x86</option>
+                        <option>Both</option>
+                    </select>
+
+                    <p class="create-project-item-of-input">Build:</p>
+                    <select id="dropdown-project-build-system">
+                        <option>MSBuild</option>
+                        <option>CMake</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <button id="button-back-id" class="footer-button-create-disabled">Back</button>
+        <button id="create-project-button-id" class="footer-button-create-disabled">Select</button>
+    </div>
+
+</body>
+<script>
+
+    const vscode = acquireVsCodeApi();
+
+    // ── State ────────────────────────────────────────────
+    const AppState = {
+        selectedTemplateID: null,
+        history: []
+    };
+
+    // ── Data ─────────────────────────────────────────────
+    const Pages = {
+        SELECT_TEMPLATE: 'selectTemplate',
+        CONFIGURE_PROJECT: 'configureProject'
+    };
+
+    const templateItemList = [
+        {
+            ID: 1,
+            Name: 'Console Application',
+            Description: 'A project template for creating a command-line application.',
+            InternalCommand: 'Create_Console_Application',
+            IconName: 'terminal',
+            tags: ['Shared', 'C++', 'Console']
+        },
+        {
+            ID: 2,
+            Name: 'Dynamic Library (.dll)',
+            Description: 'A project template for creating a dynamic link library (windows .dll).',
+            InternalCommand: 'Create_Dynamic_dll_lib',
+            IconName: 'library',
+            tags: ['Shared', 'C++', 'library', 'Windows']
+        },
+        {
+            ID: 3,
+            Name: 'Static Library (.lib)',
+            Description: 'A project template for creating a static link library (windows .lib).',
+            InternalCommand: 'Create_Static_lib',
+            IconName: 'library',
+            tags: ['Shared', 'C++', 'library', 'Windows']
+        },
+    ];
+
+    // ── Navigation ────────────────────────────────────────
+    function navigateTo(pageName) {
+        _showPage(pageName);
+        AppState.history.push(pageName);
+        _updateBackButton();
+    }
+
+    function goBack() {
+        AppState.history.pop();
+        const prev = AppState.history[AppState.history.length - 1];
+        if (prev) _showPage(prev);
+        _updateBackButton();
+    }
+
+    // ── Pages ─────────────────────────────────────────────
+    function _showPage(pageName) {
+        const pageElements = {
+            selectTemplate: {
+                left: document.getElementById('project-create-page-left'),
+                right: document.getElementById('content-page-wizard-select-project'),
+            },
+            configureProject: {
+                left: document.getElementById('project-configuration-page-left'),
+                right: document.getElementById('content-page-wizard-create-project'),
+            }
+        };
+
+        Object.values(pageElements).forEach(({ left, right }) => {
+            left.style.display = 'none';
+            right.style.display = 'none';
+        });
+
+        pageElements[pageName].left.style.display = 'block';
+        pageElements[pageName].right.style.display = 'block';
+
+        _onPageEnter(pageName);
+    }
+
+    function _onPageEnter(pageName) {
+        const btn = document.getElementById('create-project-button-id');
+
+        if (pageName === Pages.CONFIGURE_PROJECT) {
+            _populateConfigurePage();
+            btn.textContent = 'Create';
+            btn.onclick = () => _collectAndCreate();
+            document.getElementById('input-project-name').classList.remove('input-error');
+        } else {
+            btn.textContent = 'Select';
+            btn.onclick = () => navigateTo(Pages.CONFIGURE_PROJECT);
+        }
+    }
+
+    function _populateConfigurePage() {
+        const template = templateItemList.find(t => t.ID === AppState.selectedTemplateID);
+        if (!template) return;
+
+        document.getElementById('project-configuration-title').textContent = template.Name;
+        document.getElementById('project-configuration-description').textContent = template.Description;
+        document.getElementById('project-configuration-project-tags').innerHTML =
+            template.tags.map(tag => `<span class="template-list-item-tag">${tag}</span>`).join(' ');
+    }
+
+    // ── Create ────────────────────────────────────────────
+    function _collectAndCreate() {
+        const nameInput = document.getElementById('input-project-name');
+
+        if (!nameInput.value.trim()) {
+            nameInput.classList.add('input-error');
+            return;
+        }
+
+        const payload = {
+            name: nameInput.value.trim(),
+            configuration: document.getElementById('dropdown-project-configuration').value,
+            platform: document.getElementById('dropdown-project-platform').value,
+            buildSystem: document.getElementById('dropdown-project-build-system').value,
+            internalCommand: templateItemList.find(t => t.ID === AppState.selectedTemplateID).InternalCommand
+        };
+
+        console.log('Creating project:', payload);
+        vscode.postMessage({ type: 'createProject', data: payload });
+    }
+
+    // ── Template list ─────────────────────────────────────
+    function _selectTemplate(id) {
+        if (AppState.selectedTemplateID !== null && AppState.selectedTemplateID !== id) {
+            const prev = document.getElementById(AppState.selectedTemplateID);
+            if (prev) {
+                prev.classList.remove('template-list-item-selected');
+                prev.classList.add('template-list-item');
+            }
+        }
+
+        document.getElementById(id).classList.add('template-list-item-selected');
+        document.getElementById(id).classList.remove('template-list-item');
+
+        AppState.selectedTemplateID = id;
+
+        const btn = document.getElementById('create-project-button-id');
+        btn.classList.remove('footer-button-create-disabled');
+        btn.classList.add('footer-button-create');
+    }
+
+    function _generateTemplateList() {
+        const container = document.getElementById('template-list-id');
+
+        container.innerHTML = templateItemList.map(({ ID, Name, Description, IconName, tags }) => `
+        <div onclick="_selectTemplate(${ID})" id="${ID}" class="template-list-item">
+            <span class="codicon codicon-${IconName} template-list-item-icon"></span>
+            <p class="template-title">${Name}</p>
+            <p>${Description}</p>
+            <div class="tempalte-list-item-tags-container">
+                ${tags.map(tag => `<span class="template-list-item-tag">${tag}</span>`).join('')}
+            </div>
+        </div>
+    `).join('');
+    }
+
+    // ── UI helpers ────────────────────────────────────────
+    function _updateBackButton() {
+        const btn = document.getElementById('button-back-id');
+        const canGoBack = AppState.history.length > 1;
+
+        btn.classList.toggle('footer-button-create-disabled', !canGoBack);
+        btn.classList.toggle('footer-button-create', canGoBack);
+        btn.onclick = canGoBack ? () => goBack() : null;
+    }
+
+    // ── Init ──────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        _generateTemplateList();
+        navigateTo(Pages.SELECT_TEMPLATE);
+    });
+</script>
+
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.Vcxproj Propertiers page</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Utils.css">
+
+    <!-- Material Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0,1" />
+
+    <!-- Material font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Phosphor icons -->
+    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+
+    <!-- Visual Studio Code Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vscode/codicons@0.0.36/dist/codicon.css">
+</head>
+
+<body>
+    <nav class="sidebar">
+
+        <div class="menu-header">
+            <div class="simple-header-project-icon">
+                c++
+            </div>
+            <div class="header-title-wrapper" data-tooltip="ConsoleApplication">
+                <p id="toolbar-project-name-id" class="header-title">App Name</p>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="divider"></div>
+
+        <div class="menu-group">
+            <a class="menu-item active" onclick="ChangePageContent('General','General')">
+                <span class="codicon codicon-settings-gear"></span>
+                <span>General</span>
+            </a>
+            <div class="submenu">
+                <a class="menu-item-sub" onclick="ChangePageContent('General','Advanced')">Advanced</a>
+                <a class="menu-item-sub" onclick="ChangePageContent('General','Debugging')">Debugging</a>
+            </div>
+        </div>
+
+        <div class="menu-group">
+            <a class="menu-item" onclick="ChangePageContent('CPP','General')">
+                <span class="codicon codicon-file-code"></span>
+                <span>C/C++</span>
+            </a>
+            <div class="submenu">
+                <a class="menu-item-sub" onclick="ChangePageContent('CPP','Preprocessors')">Preprocessors</a>
+                <a class="menu-item-sub" onclick="ChangePageContent('CPP','Optimization')">Optimization</a>
+                <a class="menu-item-sub" onclick="ChangePageContent('CPP','CodeGeneration')">Code Generation</a>
+                <a class="item-disabled">Language</a>
+                <a class="menu-item-sub" onclick="ChangePageContent('CPP','PrecomHeaders')">Precompiled Headers</a>
+                <a class="menu-item-sub" onclick="ChangePageContent('CPP','Advanced')">Advanced</a>
+            </div>
+        </div>
+
+        <div class="menu-group">
+            <a class="menu-item" onclick="ChangePageContent('Linker','General')">
+                <span class="codicon codicon-references"></span>
+                <span>Linker</span>
+            </a>
+            <div class="submenu">
+                <a class="menu-item-sub" onclick="ChangePageContent('Linker','Input')">Input</a>
+                <a class="menu-item-sub" onclick="ChangePageContent('Linker','System')">System</a>
+                <a class="menu-item-sub" onclick="ChangePageContent('Linker','Advanced')">Advanced</a>
+            </div>
+        </div>
+
+       
+
+        <!-- More -->
+        <!-- <div class="divider"></div> -->
+
+        <!-- <a class="menu-item" onclick="ShowPage('Settings_Page')">
+            <span class="material-symbols-outlined">settings</span>
+            <span>Settings</span>
+        </a>
+
+        <a class="menu-item">
+            <span class="material-symbols-outlined">help</span>
+            <span>Help</span>
+        </a> -->
+
+        <div class="menu-footer">
+            <p>Configurator for .vcxproj</p>
+            <p>version: 1.0.0</p>
+            <p>Author: Sergey Naumenkov</p>
+        </div>
+    </nav>
+
+    <main class="main-container-view">
+        <div class="Toolbar-container">
+            <div class="Toolbar-left-content">
+            </div>
+            <div class="Toolbar-right-content">
+                <button class="ToolBar-Button" onclick="SaveChanges()">Save</button>
+                <button class="ToolBar-Button" onclick="ForceClose()">Return back in Visual Studio Code</button>
+                <select id="ProjectConfigurationID" class="toolbar-configuration-dropdown"></select>
+            </div>
+        </div>
+
+        <div class="main-content-view-table">
+            <h1 id="Page_Title">General</h1>
+
+            <div class="prop-section">
+                <table>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="Scripts/Pages/SharedTableContentGenerator.js"></script>
+<script src="Scripts/Pages/General.js"></script>
+<script src="Scripts/Pages/C_CppPage.js"></script>
+<script src="Scripts/Pages/Linker.js"></script>
+<script src="Scripts/Pages/SettingsPage.js"></script>
+<script>
+
+    let ParsedVcxProj = {};
+    let CurrentConfiguration = '';
+    let PendingChanges = [];
+
+    let CurrentPageInfo = {
+        Generator: '',
+        Page: ''
+    };
+
+    let CurrentProjectProps = {
+        Configuration: '',
+        Sections: ParsedVcxProj
+    };
+
+    document.querySelector('tbody').addEventListener('change', (event) => {
+        const control = event.target;
+
+        var key = control.dataset.key;
+        var value = control.value;
+        var original = control.dataset.original;
+        var location = control.dataset.location;
+        var isConfig = control.dataset.isconfig;
+
+        /* if control is checbox update label value */
+        if (control.type === 'checkbox') {
+            value = control.checked;
+            control.nextElementSibling.textContent = value;
+        }
+
+        /* Update list */
+        const existing = PendingChanges.findIndex(
+            p => p.Key === key && p.Configuration === CurrentProjectProps.Configuration
+        );
+
+        if (value !== original) {
+            if (existing !== -1) {
+                PendingChanges[existing].Value = value; // обновить существующее
+            } else {
+                PendingChanges.push({ Configuration: CurrentProjectProps.Configuration, Key: key, Value: value, Location: location, isConfig: isConfig });
+            }
+        } else {
+            if (existing !== -1) {
+                PendingChanges.splice(existing, 1); // удалить если вернули оригинал
+            }
+        }
+
+        console.log('PendingChanges: ', PendingChanges);
+    });
+
+    /* Send changes in vs code extension */
+    function SaveChanges() {
+        if (PendingChanges.length > 0) {
+            vscode.postMessage({
+                type: 'saveChanges',
+                data: PendingChanges
+            });
+        }
+
+        PendingChanges = [];
+    }
+
+    /* Force close without save changes*/
+    function ForceClose() {
+        vscode.postMessage({
+            type: 'forcedCloseWebView'
+        });
+    }
+
+    function ChangePageContent(generator, page) {
+        if (generator === 'General') {
+            CurrentPageInfo.Generator = generator;
+            CurrentPageInfo.Page = page;
+
+            GenerateGeneralPages(page, CurrentProjectProps);
+        }
+        else if (generator === 'CPP') {
+            CurrentPageInfo.Generator = generator;
+            CurrentPageInfo.Page = page;
+
+            GenerateCppPages(page, CurrentProjectProps);
+        }
+        else if (generator === 'Linker') {
+            CurrentPageInfo.Generator = generator;
+            CurrentPageInfo.Page = page;
+
+            GenerateLinkerPages(page, CurrentProjectProps);
+        }
+        else {
+            CurrentPageInfo.Generator = 'General';
+            CurrentPageInfo.Page = 'General';
+
+            GenerateGeneralPages(page, CurrentProjectProps);
+        }
+    }
+
+    const vscode = acquireVsCodeApi();
+    window.addEventListener('load', () => {
+        console.log('WebView ready, sending ready signal');
+        vscode.postMessage({ type: 'ready' });
+    });
+
+    window.addEventListener('message', (event) => {
+        const message = event.data;
+        if (message.type === 'loadProject') {
+            const data = message.data;
+            ParsedVcxProj = data.data;
+
+            ChangeToolBarProjectName(message.data.ProjectName);
+
+            CurrentProjectProps.Configuration = Object.keys(ParsedVcxProj.configs)[0];
+            CurrentProjectProps.Sections = ParsedVcxProj;
+
+            // For first init
+            ChangePageContent('General', 'General');
+
+            const confDropDown = document.getElementById('ProjectConfigurationID');
+
+            Object.keys(ParsedVcxProj.configs).forEach(config => {
+                const option = document.createElement('option');
+                option.value = config;
+                option.textContent = config;
+                option.id = 'dropdown-item-id-' + config;
+                confDropDown.appendChild(option);
+            });
+
+            confDropDown.addEventListener('change', () => {
+                CurrentConfiguration = confDropDown.value;
+                CurrentProjectProps.Configuration = CurrentConfiguration;
+
+                // Reload content
+                ChangePageContent(CurrentPageInfo.Generator, CurrentPageInfo.Page);
+            });
+        }
+    });
+
+    function ActivateSubMenu() {
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Clear last active item
+                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+
+                // Set new active item
+                item.classList.add('active');
+            });
+        });
+    }
+
+    /* Change toolbar project title */
+    function ChangeToolBarProjectName(projectName) {
+        const text = document.getElementById('toolbar-project-name-id');
+        const parent = text.parentElement;
+        text.innerText = projectName.replace('.vcxproj', '');
+        parent.dataset.tooltip = text.innerText;
+    }
+
+    // on click for menu items
+    ActivateSubMenu();
+</script>
+
+</html>
