@@ -1,5 +1,5 @@
 <div align='center'>
-    <img src="media\\Release\\Banner.png" alt="banner"/>
+    <img src="media/Release/Banner.png" alt="banner"/>
 </div>
 
 ---
@@ -74,27 +74,27 @@ Availabel Commands (ctrl + shift + p)
 
 <div align='center'>
     <p style='font-weight:bold;font-size:18px;'>Create Project</p>
-    <img src='media\\Release\\Screenshots\\CreP.png' width='750px' height='auto'/>
+    <img src='media/Release/Screenshots/CreP.png' width='750px' height='auto'/>
 </div>
 
 <div align='center'>
     <p style='font-weight:bold;font-size:18px;'>Project Explorer</p>
-    <img src='media\\Release\\Screenshots\\prExp.png'  width='750px' height='auto'/>
+    <img src='media/Release/Screenshots/prExp.png'  width='750px' height='auto'/>
 </div>
 
 <div align='center'>
     <p style='font-weight:bold;font-size:18px;'>Select Configuration</p>
-    <img src='media\\Release\\Screenshots\\SelConf.png' width='750px' height='auto'/>
+    <img src='media/Release/Screenshots/SelConf.png' width='750px' height='auto'/>
 </div>
 
 <div align='center'>
     <p style='font-weight:bold;font-size:18px;'>Project Properties</p>
-    <img src='media\\Release\\Screenshots\\ProjProp.png'  width='750px' height='auto'/>
+    <img src='media/Release/Screenshots/ProjProp.png'  width='750px' height='auto'/>
 </div>
 
 <div align='center'>
     <p style='font-weight:bold;font-size:18px;'>Command Palette</p>
-    <img src='media\\Release\\Screenshots\\CmdPal.png'  width='750px' height='auto'/>
+    <img src='media/Release/Screenshots/CmdPal.png'  width='750px' height='auto'/>
 </div>
 
 </details>
