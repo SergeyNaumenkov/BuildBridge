@@ -1,3 +1,4 @@
+import { DOMParser } from 'xmldom';
 import * as path from 'path';
 import * as fs from 'fs';
 

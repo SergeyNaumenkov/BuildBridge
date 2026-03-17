@@ -2,7 +2,7 @@
   "name": "buildbridge",
   "displayName": "BuildBridge",
   "description": "Visual Studio Properties Pages for C++ MSBuild projects in VS Code. Create, Edit, Build and Debug .vcxproj / .slnx projects without opening Visual Studio",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "sergeynaumenkovdev",
   "engines": {
     "vscode": "^1.109.0"

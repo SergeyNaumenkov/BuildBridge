@@ -41,6 +41,9 @@ class BuildBridgeInfoProvider implements vscode.WebviewViewProvider {
         🐛 <a href="https://github.com/SergeyNaumenkov/BuildBridge/issues">Report an issue</a>
     </div>
     <div class="row">
+        🔄 <a href="https://github.com/SergeyNaumenkov/BuildBridge/blob/main/CHANGELOG.md">ChangeLog</a>
+    </div>
+    <div class="row">
         ⭐ <a href="https://github.com/SergeyNaumenkov/BuildBridge">GitHub</a>
     </div>
 `;
