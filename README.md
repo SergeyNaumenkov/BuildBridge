@@ -7,7 +7,7 @@
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/sergeynaumenkovdev.buildbridge?label=Installs&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=sergeynaumenkovdev.buildbridge)
 [![Rating](https://img.shields.io/visual-studio-marketplace/r/sergeynaumenkovdev.buildbridge?label=Rating&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=sergeynaumenkovdev.buildbridge)
 
-[📋 Changelog](https://github.com/SergeyNaumenkov/BuildBridge/blob/main/CHANGELOG.md) • [🐛 Issues](https://github.com/SergeyNaumenkov/BuildBridge/issues) • [💡 Examples](https://github.com/SergeyNaumenkov/BuildBridge/tree/main/src/Examples)
+[📋 Changelog](https://github.com/SergeyNaumenkov/BuildBridge/blob/main/CHANGELOG.md) • [🐛 Issues](https://github.com/SergeyNaumenkov/BuildBridge/issues) • [💡 Examples](https://github.com/SergeyNaumenkov/BuildBridge/tree/main/Examples)
 
 ## About
 
