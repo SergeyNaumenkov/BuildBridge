@@ -89,7 +89,7 @@ Availabel Commands (ctrl + shift + p)
 
 <div align='center'>
     <p style='font-weight:bold;font-size:18px;'>Project Explorer</p>
-    <img src='media/Release/Screenshots/prExp.png'  width='750px' height='auto'/>
+    <img src='media/Release/Screenshots/prExp2.png'  width='750px' height='auto'/>
 </div>
 
 <div align='center'>
