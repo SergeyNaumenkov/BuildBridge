@@ -1,0 +1,6 @@
+<Solution>
+<Configurations>  <Platform Name="x64" /> 
+</Configurations>
+  <Project Path="TestDynamicLibApp\TestDynamicLibApp.vcxproj" Id="560e820b-0479-4a20-ac88-ad5a7a7da11d" />
+  <Project Path="DynamicLibrary\DynamicLibrary.vcxproj" Id="b3b1cfa3-60fd-4eac-a358-30120d20d02b" />
+</Solution>

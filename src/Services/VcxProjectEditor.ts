@@ -27,7 +27,7 @@ export class SourceFilesSection {
         }
 
         const indent = this.getIndent();
-        const newEntry = `${indent}<${tag} Include="${file}"/>\n`;
+        const newEntry = `${indent}<${tag} Include="${path.basename(file)}"/>\n`;
         const searchStr = `<${tag} Include=`;
         const tagIndex = this.content.lastIndexOf(searchStr);
 
@@ -223,7 +223,7 @@ export class VcxProjectEditor {
                         newProp.textContent = change.Value;
                         targetGroup.appendChild(dom.createTextNode('   '));
                         (targetGroup as Element).appendChild(newProp);
-                        targetGroup.appendChild(dom.createTextNode('\n'));
+                        targetGroup.appendChild(dom.createTextNode('\n  '));
                     }
                 }
             }

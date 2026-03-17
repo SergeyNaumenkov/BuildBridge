@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { VcxProjectEditor } from '../Services/VcxProjectEditor';
+import { SolutionItem } from '../Models/SolutionItem';
 
 async function AddFileToVcxProject(workspaceFolder: vscode.Uri, outFile: string) {
     const editor = new VcxProjectEditor();
@@ -18,7 +19,7 @@ async function AddFileToVcxProject(workspaceFolder: vscode.Uri, outFile: string)
 
 export function RegisterCreateProjectFileCommand(context: vscode.ExtensionContext) {
     context.subscriptions.push(
-        vscode.commands.registerCommand('buildbridge.newFile', async () => {
+        vscode.commands.registerCommand('buildbridge.newFile', async (item?: SolutionItem) => {
 
             const workspaceFolder = vscode.workspace.workspaceFolders?.[0].uri;
             if (!workspaceFolder) {
@@ -44,29 +45,34 @@ export function RegisterCreateProjectFileCommand(context: vscode.ExtensionContex
                 return;
             }
 
+            let targetFolder: vscode.Uri | null = null;
+            if (item && item.filePath) {
+                targetFolder = vscode.Uri.file(path.dirname(item.filePath));
+                console.log('target: ', targetFolder);
+            }
+            if (targetFolder === null) {
+                return;
+            }
+
             if (fileType === '.cpp(source file)') {
-                const outFile = fileName + '.cpp';
-                const uri = vscode.Uri.joinPath(workspaceFolder, outFile);
+                const outFile = path.join(targetFolder.fsPath, fileName + '.cpp');
                 vscode.workspace.fs.writeFile(
-                    uri,
+                    vscode.Uri.file(outFile),
                     Buffer.from('')
                 );
 
                 // Register new file in .vcxproject
-                AddFileToVcxProject(workspaceFolder, outFile);
+                AddFileToVcxProject(targetFolder, outFile);
             }
             else if (fileType === '.h(header file)') {
-                {
-                    const outFile = fileName + '.h';
-                    const uri = vscode.Uri.joinPath(workspaceFolder, outFile);
-                    vscode.workspace.fs.writeFile(
-                        uri,
-                        Buffer.from('')
-                    );
+                const outFile = path.join(targetFolder.fsPath, fileName + '.h');
+                vscode.workspace.fs.writeFile(
+                    vscode.Uri.file(outFile),
+                    Buffer.from('')
+                );
 
-                    // Register new file in .vcxproject
-                    AddFileToVcxProject(workspaceFolder, outFile);
-                }
+                // Register new file in .vcxproject
+                AddFileToVcxProject(targetFolder, outFile);
             }
         })
     );

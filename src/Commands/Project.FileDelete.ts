@@ -36,7 +36,8 @@ export function RegisterProjectFileDeleteCommand(context: vscode.ExtensionContex
                     return;
                 }
 
-                RemoveFileFromVcxProject(workspaceFolder, item.filePath);
+                const targetFolder = vscode.Uri.file(path.dirname(item.filePath));
+                RemoveFileFromVcxProject(targetFolder, item.filePath);
             }
         })
     );

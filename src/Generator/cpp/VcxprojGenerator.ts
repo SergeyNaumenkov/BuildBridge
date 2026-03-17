@@ -29,6 +29,7 @@ export class VcxprojGenerator {
 
         this._projectData = projectData;
         this._projectWorkspaceFolder = workspaceFolder;
+        this._projectTemplateUsed = projectTemplate;
 
         // Get path to template
         const templatePath = this.PreparePathToTemplate(projectTemplate);
@@ -124,15 +125,25 @@ export class VcxprojGenerator {
         // Get resolved configurations
         const { configs, platforms } = GetResolvedConfigurations(this._projectData);
 
+        const configTypeMap = {
+            [ProjectTemplateName.ConsoleApplication]: 'Application',
+            [ProjectTemplateName.SharedLibrary]: 'StaticLibrary',
+            [ProjectTemplateName.DynamicLibrary]: 'DynamicLibrary'
+        };
+        const configType = configTypeMap[this._projectTemplateUsed] || 'Application';
+
         let stringContent = '';
         configs.forEach(config => {
             platforms.forEach(platform => {
                 stringContent += `  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='${config}|${platform}'" Label="Configuration">` + '\n';
-                stringContent += `    <ConfigurationType>Application</ConfigurationType>` + '\n';
+                stringContent += `    <ConfigurationType>${configType}</ConfigurationType>` + '\n';
                 stringContent += `    <UseDebugLibraries>${config === 'Debug' ? 'true' : 'false'}</UseDebugLibraries>` + '\n';
                 stringContent += `    <PlatformToolset>v145</PlatformToolset>` + '\n';
                 if (config === 'Release') {
                     stringContent += `    <WholeProgramOptimization>true</WholeProgramOptimization>` + '\n';
+                }
+                if (configType === ProjectTemplateName.DynamicLibrary) {
+                    stringContent += `    <LinkIncremental>true</LinkIncremental>` + '\n';
                 }
                 stringContent += `    <CharacterSet>Unicode</CharacterSet>` + '\n';
                 stringContent += `  </PropertyGroup>` + '\n';
@@ -188,6 +199,13 @@ export class VcxprojGenerator {
         const { configs, platforms } = GetResolvedConfigurations(this._projectData);
         const defines = { Debug: '_DEBUG;_CONSOLE;%(PreprocessorDefinitions)', Release: 'NDEBUG;_CONSOLE;%(PreprocessorDefinitions)' };
 
+        const configTypeMap = {
+            [ProjectTemplateName.ConsoleApplication]: 'Link',
+            [ProjectTemplateName.SharedLibrary]: 'Lib',
+            [ProjectTemplateName.DynamicLibrary]: 'Link'
+        };
+        const tagType = configTypeMap[this._projectTemplateUsed] || 'Link';
+
         let stringContent = '';
         configs.forEach(config => {
             platforms.forEach(platform => {
@@ -199,10 +217,19 @@ export class VcxprojGenerator {
                 stringContent += `      <ConformanceMode>true</ConformanceMode>` + '\n';
                 stringContent += `      <LanguageStandard>stdcpp20</LanguageStandard>` + '\n';
                 stringContent += `    </ClCompile>` + '\n';
-                stringContent += `    <Link>` + '\n';
-                stringContent += `      <SubSystem>Console</SubSystem>` + '\n';
+                stringContent += `    <${tagType}>` + '\n';
+                stringContent += `      <AdditionalDependencies>kernel32.lib;%(AdditionalDependencies)</AdditionalDependencies>` + '\n';
+                if (this._projectTemplateUsed === ProjectTemplateName.SharedLibrary) {
+                    stringContent += `      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>` + '\n';
+                }
+                else if (this._projectTemplateUsed === ProjectTemplateName.DynamicLibrary) {
+                    stringContent += `      <SubSystem>Windows</SubSystem>` + '\n';
+                }
+                else {
+                    stringContent += `      <SubSystem>Console</SubSystem>` + '\n';
+                }
                 stringContent += `      <GenerateDebugInformation>true</GenerateDebugInformation>` + '\n';
-                stringContent += `    </Link>` + '\n';
+                stringContent += `    </${tagType}>` + '\n';
                 stringContent += `  </ItemDefinitionGroup>` + '\n';
             });
         });
@@ -289,11 +316,7 @@ export class VcxprojGenerator {
         const mediaFolderPath = ExtensionContext.GetPathToMediaFolder().fsPath;
         const templateFolder = path.join(mediaFolderPath, 'cpp', 'templates');
 
-        if (projectTemplate === ProjectTemplateName.ConsoleApplication) {
-            return path.join(templateFolder, 'ConsoleApplication.vcxproj');
-        }
-
-        return 'Bad';
+        return path.join(templateFolder, 'ConsoleApplication.vcxproj');
     }
 
 }

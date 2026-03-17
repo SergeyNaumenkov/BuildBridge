@@ -4,6 +4,8 @@ import * as path from 'path';
 
 import { CreateProjectInfo } from '../Models/ICreateProjectInfo';
 import { CreateConsoleApplicationFromWebView } from '../Generator/cpp/ConsoleApplication';
+import { GenerateSharedLibrary } from '../Generator/cpp/SharedLibrary';
+import { GenerateDynamicLibrary } from '../Generator/cpp/DynamicLibrary';
 
 async function createProjectWebView(context: vscode.ExtensionContext) {
     const panel = vscode.window.createWebviewPanel(
@@ -49,9 +51,16 @@ async function createProjectWebView(context: vscode.ExtensionContext) {
         }
         else if (message.type === 'createProject') {
             const data = message.data;
+            const internalCommand = data.internalCommand;
 
-            if (data.internalCommand === 'Create_Console_Application') {
+            if (internalCommand === 'Create_Console_Application') {
                 CreateConsoleApplicationFromWebView(context, data);
+            }
+            else if (internalCommand === 'Create_Dynamic_Library') {
+                GenerateDynamicLibrary(context, data);
+            }
+            else if (internalCommand === 'Create_Shared_Library') {
+                GenerateSharedLibrary(context, data);
             }
 
             panel.dispose();

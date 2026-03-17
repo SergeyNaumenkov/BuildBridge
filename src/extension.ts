@@ -5,8 +5,6 @@ import * as path from 'path';
 import { RegisterProjectFileDeleteCommand } from './Commands/Project.FileDelete';
 import { RegisterCreateProjectFileCommand } from './Commands/Project.FileCreate';
 import { RegisterCreateConsoleAppCommand } from './Commands/CreateConsoleAppCommand';
-import { RegisterStatusBarMenu } from './Commands/Project.StatusBar.Menu';
-import { RegisterProjectAboutCommand } from './Commands/Project.About';
 
 import { SolutionTreeProvider } from './Providers/SolutionTreeProvider';
 
@@ -22,18 +20,42 @@ import { RegisterProjectGetStartupFileCommand } from './Commands/ProjectGetStart
 import { GlobalProjectStatusBar } from './Services/GlobalStatusBarService';
 import { ExtractVcxProjects, ParseVcxProj } from './Utils/VcxprojUtils';
 import { ExtensionContext } from './Utils/ExtensionContext';
+import { RegisterBuildProject, RegisterRunProjectWithDebugger, RegisterRunProjectWithoutDebugger } from './Commands/ProjectActionCommand';
+import { ReturnCurrentExtensionVersion } from './Utils/ExtensionVersion';
+import { RegisterWebPanelWithInformation } from './Providers/BuildBridgeInfoPanel';
 
-function RegisterAllCommands(context: vscode.ExtensionContext) {
+function RegisterAllCommands(context: vscode.ExtensionContext, treeDataProvider: SolutionTreeProvider) {
+	/* Register Create new file in project Command */
 	RegisterCreateProjectFileCommand(context);
+
+	/* Register Command for delete file in project */
 	RegisterProjectFileDeleteCommand(context);
-	RegisterProjectAboutCommand(context);
-	RegisterStatusBarMenu(context);
- }
+
+	// Register command for choosing the project configuration
+	RegisterProjectSelectConfigurationCommand(context);
+
+	/* Register Open project folder command */
+	RegisterOpenProjectCommand(context, treeDataProvider);
+
+	/* Register Get Current Project Build Task */
+	RegisterGetProjectBuildTask(context);
+
+	/* Register Get Project Startup File Command */
+	RegisterProjectGetStartupFileCommand(context);
+
+	/* Register project action commands */
+	RegisterRunProjectWithDebugger(context);
+	RegisterRunProjectWithoutDebugger(context);
+	RegisterBuildProject(context);
+
+	/* Register WebPanel for Project Explorer View */
+	RegisterWebPanelWithInformation(context);
+}
 
 async function GetCurrentProjectConfiguration() {
 	const folder = vscode.workspace.workspaceFolders![0].uri.fsPath;
 	const session = ProjectSession.getInstance();
-	
+
 	// Try load config file
 	const configPath = path.join(folder, '.BuildBridge');
 	if (fs.existsSync(configPath)) {
@@ -76,7 +98,7 @@ async function GetCurrentProjectConfiguration() {
 export function activate(context: vscode.ExtensionContext) {
 	console.log('Build Bridge enabled!');
 
-	// Get extension path
+	// Set extension path
 	ExtensionContext.Init(context.extensionUri);
 
 	// Create Provider
@@ -96,17 +118,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	GlobalProjectStatusBar.getInstance().Create(context);
 
-	// Register command for choosing the project configuration
-	RegisterProjectSelectConfigurationCommand(context);
-
-	RegisterOpenProjectCommand(context, treeDataProvider);
-
-	RegisterGetProjectBuildTask(context);
-
-	RegisterProjectGetStartupFileCommand(context);
-
 	// Register all commands
-	RegisterAllCommands(context);
+	RegisterAllCommands(context, treeDataProvider);
 
 	// Register command for create Console Application
 	RegisterCreateConsoleAppCommand(context, treeDataProvider);
@@ -117,6 +130,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// Register command for viewing the props of project via WebView
 	RegisterOpenProjectPropertiesCommand(context);
 
+	/* After loading get current project configuration in folder */
 	GetCurrentProjectConfiguration();
 }
 

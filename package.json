@@ -2,9 +2,14 @@
   "name": "buildbridge",
   "displayName": "BuildBridge",
   "description": "Visual Studio Properties Pages for C++ MSBuild projects in VS Code. Create, Edit, Build and Debug .vcxproj / .slnx projects without opening Visual Studio",
-  "version": "0.1.0",
+  "version": "0.1.2",
+  "publisher": "sergeynaumenkovdev",
   "engines": {
     "vscode": "^1.109.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SergeyNaumenkov/BuildBridge"
   },
   "icon": "media/icon.png",
   "categories": [
@@ -24,8 +29,7 @@
     "cmake alternative"
   ],
   "activationEvents": [
-    "workspaceContains:**/*.slnx",
-    "workspaceContains:**/*vcxproj"
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -47,6 +51,23 @@
         {
           "command": "buildbridge.getExePath",
           "when": "false"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "buildbridge.project.build",
+          "when": "view == buildbridge-projects",
+          "group": "navigation"
+        },
+        {
+          "command": "buildbridge.project.run",
+          "when": "view == buildbridge-projects",
+          "group": "navigation"
+        },
+        {
+          "command": "buildbridge.project.run_no_debug",
+          "when": "view == buildbridge-projects",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
@@ -73,6 +94,13 @@
           "icon": "media/icon.svg",
           "id": "buildbridge-projects",
           "name": "Projects",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "id": "buildbridge-info",
+          "name": "BuildBridge: Information",
+          "type": "webview",
+          "visibility": "collapsed",
           "when": "workspaceFolderCount > 0"
         }
       ]
@@ -122,6 +150,21 @@
         "command": "buildbridge.project.file.delete",
         "title": "Delete",
         "icon": "$(trash)"
+      },
+      {
+        "command": "buildbridge.project.build",
+        "title": "Build",
+        "icon": "$(build)"
+      },
+      {
+        "command": "buildbridge.project.run",
+        "title": "Run",
+        "icon": "$(debug-alt)"
+      },
+      {
+        "command": "buildbridge.project.run_no_debug",
+        "title": "Run without debugger",
+        "icon": "$(debug-start)"
       }
     ]
   },

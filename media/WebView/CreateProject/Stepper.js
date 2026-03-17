@@ -35,12 +35,32 @@ const FilesToGenerateArrayData = [
     { ID: 'review-to-be-generate-cpp-name-id', toReplace: '{$Name$}.cpp' },
 ];
 
+function GetTemplateByIndex()
+{
+    if(gCurrentTemplateIndex === 0)
+    {
+        return 'Console Application';
+    }
+    else if(gCurrentTemplateIndex === 1)
+    {
+        return 'Dynamic Library (.dll)';
+    }
+    else if(gCurrentTemplateIndex === 2)
+    {
+        return 'Shared Library (.lib)';
+    }
+
+    // fix it later
+    return 'Custom Template';
+}
+
 function fillReviewPage(data) {
     document.getElementById('review-project-name-id').textContent = data.projectName;
     document.getElementById('review-project-configurate-id').textContent = data.projectConfiguration;
     document.getElementById('review-project-platform-id').textContent = data.projectPlatform;
     document.getElementById('review-project-path-id').textContent = gWorkspaceFolder;
     document.getElementById('review-project-cpp-standard-id').textContent = data.projectLanguageStandard;
+    document.getElementById('review-card-value-id').textContent = GetTemplateByIndex();
 
     /*  */
     FilesToGenerateArrayData.forEach(item => {
@@ -80,7 +100,6 @@ function ChangeStep() {
     }
 
     if (!validatePage(currentStep)) {
-        console.log("Test not passed");
         return;
     }
 
@@ -95,7 +114,19 @@ function ChangeStep() {
         fillReviewPage(projectData);
 
         /* Change onclick for button */
-        ChangeButtonOnClick(() => { SendDataToVsCode(projectData); });
+        let projectTypeString = '';
+        if (gCurrentTemplateIndex === 0) {
+            projectTypeString = 'Create_Console_Application';
+        }
+        else if (gCurrentTemplateIndex === 1) {
+            projectTypeString = 'Create_Dynamic_Library';
+        }
+        else if (gCurrentTemplateIndex === 2) {
+            projectTypeString = 'Create_Shared_Library';
+        }
+
+        //console.log('Project type:', projectTypeString);
+        ChangeButtonOnClick(() => { SendDataToVsCode(projectData, projectTypeString); });
     }
 
     document.querySelectorAll('.step').forEach((el, index) => {

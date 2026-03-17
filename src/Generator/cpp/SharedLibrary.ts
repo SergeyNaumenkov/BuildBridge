@@ -1,23 +1,23 @@
-
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-
 import { CreateProjectInfo } from '../../Models/ICreateProjectInfo';
 import { UserCollectedProjectInformation } from '../../Models/IProjectInformation';
-import { VcxprojGenerator } from './VcxprojGenerator';
-import { VsCodeEnvironmentGenerator } from '../VsCodeEnvironmentGenerator';
-import { SolutionGenerator } from './SolutionGenerator';
-import { BuildBridgeConfig } from '../BuildBridgeConfig';
-import { CollectDataForCreatingProject } from '../../Services/ProjectCreateCollectData';
 import { CheckCompiler, CheckMSBuild } from '../../Utils/MSBuildLocator';
-import { ProjectSession } from '../../Models/LocalProjectSession';
+import { VcxprojGenerator } from './VcxprojGenerator';
 import { ProjectTemplateName } from '../../Types/ProjectTemplateType';
+import { SolutionGenerator } from './SolutionGenerator';
 import { IsSolutionFound } from '../Utils/GeneratorUtils';
+import { VsCodeEnvironmentGenerator } from '../VsCodeEnvironmentGenerator';
+import { BuildBridgeConfig } from '../BuildBridgeConfig';
+import { ProjectSession } from '../../Models/LocalProjectSession';
 
-/* Create console application which creating from WebView */
-export async function CreateConsoleApplicationFromWebView(context: vscode.ExtensionContext, data: CreateProjectInfo) {
+/* 
+    Generate shared library (.lib)
+    This code copied from 'ConsoleApplication'
+    Need re-write and make one model for creating project templates
+*/
+export async function GenerateSharedLibrary(context: vscode.ExtensionContext, data: CreateProjectInfo) {
     const collectedData: UserCollectedProjectInformation = {
-        ProjectType: 'ConsoleApplication',
+        ProjectType: 'Shared library (.lib)',
         ProjectName: data.name,
         ProjectPlatform: data.platform,
         ProjectConfiguration: data.configuration,
@@ -42,12 +42,11 @@ export async function CreateConsoleApplicationFromWebView(context: vscode.Extens
         collectedData.MSCompilerPath = compilerPath;
     }
 
-    return CreateConsoleApp(collectedData);
+    await CreateSharedLibraryFromTemplate(collectedData);
 }
 
-/* Shared function for create Console Application */
-async function CreateConsoleApp(collectedData: UserCollectedProjectInformation) {
 
+async function CreateSharedLibraryFromTemplate(collectedData: UserCollectedProjectInformation) {
     const workspaceFolder = vscode.workspace.workspaceFolders;
     if (!workspaceFolder) {
         vscode.window.showErrorMessage('For create project Your must be open a folder!');
@@ -56,7 +55,7 @@ async function CreateConsoleApp(collectedData: UserCollectedProjectInformation) 
 
     /* Generate .vcxproj file */
     const vcxProjGenerator = new VcxprojGenerator();
-    vcxProjGenerator.LoadFromTemplate(ProjectTemplateName.ConsoleApplication, collectedData, workspaceFolder[0].uri.fsPath);
+    vcxProjGenerator.LoadFromTemplate(ProjectTemplateName.SharedLibrary, collectedData, workspaceFolder[0].uri.fsPath);
 
     /* Generate solution for this project */
     const uuid = vcxProjGenerator.GetProjectUUID();
@@ -91,25 +90,4 @@ async function CreateConsoleApp(collectedData: UserCollectedProjectInformation) 
     }
 
     return true;
-}
-
-/* Create application from VsCode inputs */
-export async function CreateConsoleApplication(context: vscode.ExtensionContext) {
-
-    // Collect data from user 
-    const collectedData = await CollectDataForCreatingProject();
-    if (!collectedData) {
-        return false;
-    }
-
-    // Get msbuild path from vscode context storage
-    if (collectedData.ProjectBuildSystem === 'MSBuild') {
-        const path = await CheckMSBuild(context);
-        if (!path) {
-            return;
-        }
-        collectedData.MSBuildPath = path;
-    }
-
-    return CreateConsoleApp(collectedData);
 }

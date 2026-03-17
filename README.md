@@ -3,9 +3,11 @@
 </div>
 
 ---
-[![Version](https://img.shields.io/visual-studio-marketplace/v/YOUR_PUBLISHER.buildbridge?label=Version&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=YOUR_PUBLISHER.buildbridge)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/YOUR_PUBLISHER.buildbridge?label=Installs&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=YOUR_PUBLISHER.buildbridge)
-[![Rating](https://img.shields.io/visual-studio-marketplace/r/YOUR_PUBLISHER.buildbridge?label=Rating&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=YOUR_PUBLISHER.buildbridge)
+[![Version](https://img.shields.io/visual-studio-marketplace/v/sergeynaumenkovdev.buildbridge?label=Version&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=sergeynaumenkovdev.buildbridge)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/sergeynaumenkovdev.buildbridge?label=Installs&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=sergeynaumenkovdev.buildbridge)
+[![Rating](https://img.shields.io/visual-studio-marketplace/r/sergeynaumenkovdev.buildbridge?label=Rating&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=sergeynaumenkovdev.buildbridge)
+
+[📋 Changelog](https://github.com/SergeyNaumenkov/BuildBridge/blob/main/CHANGELOG.md) • [🐛 Issues](https://github.com/SergeyNaumenkov/BuildBridge/issues) • [💡 Examples](https://github.com/SergeyNaumenkov/BuildBridge/tree/main/src/Examples)
 
 ## About
 
@@ -65,6 +67,14 @@ Availabel Commands (ctrl + shift + p)
 | BuildBridge: Select configuration  | Switch project configuration  |
 | BuildBridge: Properties  | Open project properties editor  |
 | BuildBridge: Focus View  | Focus Project Tree View  |
+
+---
+
+<p style='font-size:25px'>🎁 Examples</p>
+
+1. Go to 'Examples' Folder and open folder with project type
+2. Just read comments and run project
+3. Have Fun
 
 ---
 

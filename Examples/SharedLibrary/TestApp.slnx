@@ -1,0 +1,6 @@
+<Solution>
+<Configurations>  <Platform Name="x64" /> 
+</Configurations>
+  <Project Path="TestApp\TestApp.vcxproj" Id="6ed2f97d-5aff-46b6-bb2e-12a8fc776a12" />
+  <Project Path="TestLIB\TestLIB.vcxproj" Id="9f0b37bb-520d-4a49-b826-dd007d64c258" />
+</Solution>

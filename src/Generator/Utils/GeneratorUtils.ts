@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import { UserCollectedProjectInformation } from "../../Models/IProjectInformation";
 
 /* Utils */
@@ -55,4 +56,16 @@ export function GetResolvedConfigurations(projectData: UserCollectedProjectInfor
     const resolvedPlatforms = projectData.ProjectPlatform === 'Both' ? platforms : [projectData.ProjectPlatform];
 
     return { configs: resolvedConfigs, platforms: resolvedPlatforms };
+}
+
+export function IsSolutionFound(workspaceFolder: string): string {
+    const files = fs.readdirSync(workspaceFolder);
+    const slnx = files.find(f => f.endsWith('.slnx'));
+    if (slnx) {
+        // Found
+        return slnx;
+    }
+
+    // Not found, create new
+    return '';
 }

@@ -1,5 +1,7 @@
 
 
 export enum ProjectTemplateName {
-    ConsoleApplication = 'ConsoleApplication'
+    ConsoleApplication = 'ConsoleApplication',
+    DynamicLibrary = 'DynamicLibrary',
+    SharedLibrary = 'SharedLibrary'
 };

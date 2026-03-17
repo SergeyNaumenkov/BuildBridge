@@ -9,3 +9,6 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 **/.vscode-test.*
+.git/**
+roadmap_.txt
+Examples/**
