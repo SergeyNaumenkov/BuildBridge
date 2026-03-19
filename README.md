@@ -7,7 +7,7 @@
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/sergeynaumenkovdev.buildbridge?label=Installs&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=sergeynaumenkovdev.buildbridge)
 [![Rating](https://img.shields.io/visual-studio-marketplace/r/sergeynaumenkovdev.buildbridge?label=Rating&style=for-the-badge&labelColor=3D2070&color=2A1A5E)](https://marketplace.visualstudio.com/items?itemName=sergeynaumenkovdev.buildbridge)
 
-[📋 Changelog](https://github.com/SergeyNaumenkov/BuildBridge/blob/main/CHANGELOG.md) • [🐛 Issues](https://github.com/SergeyNaumenkov/BuildBridge/issues) • [💡 Examples](https://github.com/SergeyNaumenkov/BuildBridge/tree/main/Examples)
+[📋 Changelog](https://github.com/SergeyNaumenkov/BuildBridge/blob/main/CHANGELOG.md) • [🐛 Issues](https://github.com/SergeyNaumenkov/BuildBridge/issues) • [💡 Examples](https://github.com/SergeyNaumenkov/BuildBridge/tree/main/Examples) • [💡 Roadmap](https://github.com/SergeyNaumenkov/BuildBridge/blob/main/ROADMAP.md)
 
 ## About
 
@@ -26,6 +26,7 @@ Designed for developers who want the power of MSBuild with the simplicity of VS 
 | 🔧 **Visual Studio Build Tools** | v140 or higher |
 | 💻 **VS Code** | v1.80.0+ (recommended) |
 | 🪟 **Windows** | Windows 10 or higher |
+| 🪟 **MSBuild Tools** | Download and install MSBuild Tools: ([Visual Studio Build Tools](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2026)) |
 
 ---
 
