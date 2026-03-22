@@ -36,8 +36,17 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "buildbridge-container",
+          "id": "buildbridge-solution-container",
           "title": "Build Bridge",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "buildbridge-solution-container": [
+        {
+          "id": "buildbridge-solution-container-id",
+          "name": "Project Explorer",
           "icon": "media/icon.svg"
         }
       ]

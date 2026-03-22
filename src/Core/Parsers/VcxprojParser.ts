@@ -122,7 +122,7 @@ export class VcxprojParser implements IProjectParser {
 
         const includeNode = projectNodes[0].getElementsByTagName('ClInclude');
         if (!includeNode) {
-            return [];
+            return sourceFiles;
         }
 
         /* Get include files ( .h ) */
