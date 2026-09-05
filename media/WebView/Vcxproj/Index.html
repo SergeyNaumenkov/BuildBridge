@@ -80,7 +80,7 @@
             </div>
         </div>
 
-       
+
 
         <!-- More -->
         <!-- <div class="divider"></div> -->
@@ -110,6 +110,45 @@
                 <button class="ToolBar-Button" onclick="SaveChanges()">Save</button>
                 <button class="ToolBar-Button" onclick="ForceClose()">Return back in Visual Studio Code</button>
                 <select id="ProjectConfigurationID" class="toolbar-configuration-dropdown"></select>
+            </div>
+        </div>
+
+        <div class="tag-input"
+            style="border: 1px rgb(59, 59, 59) solid; width: 100%; padding: 10px; border-radius: 10px;">
+            <div class="active-tags" style="width: auto;">
+                <span
+                    style="color: rgb(202, 202, 202); padding: 8px; border: 1px rgb(59, 59, 59) solid; border-radius: 10px; display: inline-block;">
+                    $(SolutionDir)$(Configuration)Debug.lib</span>
+                <span
+                    style="color: rgb(202, 202, 202); padding: 8px; border: 1px rgb(59, 59, 59) solid; border-radius: 10px; display: inline-block;">
+                    $(SolutionDir)$(Configuration)$(Platform)Debug.lib</span>
+            </div>
+            <div style="display: flex; margin-top: 10px;">
+                <input class="shared-input" placeholder="$ for macros • Enter for confirm • Escape for cancel " />
+                <button
+                    style="width: 150px; margin-left: 10px; border-radius: 10px; border: none; background-color: blueviolet; color: white;">Add</button>
+            </div>
+            <div style="display: flex; align-items: center; width: 100%;">
+                <p style="margin-top: 10px; color: gray;">
+                    <span
+                        style="padding: 5px; background-color: rgb(53, 53, 53); border-radius: 5px; border: 1px rgb(59, 59, 59) solid;">$</span>
+                    for macros
+                </p>
+                <span
+                    style="margin-top: 10px; font-size: 25px; margin-left: 10px; margin-right: 10px; color: gray;">•</span>
+                <p style="margin-top: 10px; color: gray;">
+                    <span
+                        style="padding: 5px; background-color: rgb(53, 53, 53); border-radius: 5px; border: 1px rgb(59, 59, 59) solid;">Enter</span>
+                    to confirm
+                </p>
+                <span
+                    style="margin-top: 10px; font-size: 25px; margin-left: 10px; margin-right: 10px; color: gray;">•</span>
+                <p style="margin-top: 10px; color: gray;">
+                    <span
+                        style="padding: 5px; background-color: rgb(53, 53, 53); border-radius: 5px; border: 1px rgb(59, 59, 59) solid;">Escape</span>
+                    to cancel
+                </p>
+                <p style="margin-top: 10px; color: gray; margin-left: auto;">▼</p>
             </div>
         </div>
 

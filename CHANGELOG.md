@@ -1,5 +1,15 @@
 # 🚀 BuildBridge Changelog
 
+<!-- Version 0.1.4 -->
+## 🔨 Version 0.1.4 — Project Parser
+📅 Release Date: 19.03.2026
+
+| Issue | Description | Note |
+|-------|-------------|------|
+| ❌ Parser is not seen files in subfolders       | ✅ Now parser is see files in subfolders    | 📌 - |
+
+---
+
 <!-- Version 0.1.3 -->
 ## 🔥 Version 0.1.3 — Project Types Expansion
 📅 Release Date: 18.03.2026
